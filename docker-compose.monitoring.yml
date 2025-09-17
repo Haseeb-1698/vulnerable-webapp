@@ -1,0 +1,140 @@
+version: '3.8'
+
+# Monitoring and logging services extension
+services:
+  # Extend backend with monitoring volumes
+  backend:
+    volumes:
+      - backend_logs:/app/logs
+      - monitoring_data:/app/monitoring
+    environment:
+      - LOG_LEVEL=info
+      - ENABLE_REQUEST_LOGGING=true
+      - ENABLE_SECURITY_LOGGING=true
+      - ENABLE_PERFORMANCE_MONITORING=true
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Log aggregation service (optional - for advanced monitoring)
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.8.0
+    container_name: vulnerable-webapp-logstash
+    volumes:
+      - ./monitoring/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./monitoring/logstash/config:/usr/share/logstash/config:ro
+      - backend_logs:/logs:ro
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+    networks:
+      - webapp-network
+    depends_on:
+      - elasticsearch
+    profiles:
+      - monitoring
+
+  # Elasticsearch for log storage (optional)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: vulnerable-webapp-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - webapp-network
+    profiles:
+      - monitoring
+
+  # Kibana for log visualization (optional)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: vulnerable-webapp-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - webapp-network
+    depends_on:
+      - elasticsearch
+    profiles:
+      - monitoring
+
+  # Prometheus for metrics collection (optional)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: vulnerable-webapp-prometheus
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      - webapp-network
+    profiles:
+      - monitoring
+
+  # Grafana for metrics visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: vulnerable-webapp-grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3001:3000"
+    networks:
+      - webapp-network
+    depends_on:
+      - prometheus
+    profiles:
+      - monitoring
+
+  # Node Exporter for system metrics (optional)
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: vulnerable-webapp-node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - "9100:9100"
+    networks:
+      - webapp-network
+    profiles:
+      - monitoring
+
+volumes:
+  backend_logs:
+    driver: local
+  monitoring_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local

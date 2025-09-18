@@ -20,7 +20,7 @@
     "noFallthroughCasesInSwitch": false,
     "noUncheckedIndexedAccess": false,
     "exactOptionalPropertyTypes": false,
-    "suppressImplicitAnyIndexErrors": true,
+
     "noEmitOnError": false,
     "baseUrl": ".",
     "paths": {

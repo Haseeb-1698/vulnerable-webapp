@@ -13,7 +13,7 @@ COPY package*.json ./
 
 # Development stage
 FROM base AS development
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . .
 EXPOSE 3000
 USER nodejs
@@ -21,7 +21,7 @@ CMD ["npm", "run", "dev", "--", "--host"]
 
 # Build stage
 FROM base AS builder
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 

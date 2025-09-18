@@ -14,7 +14,7 @@ COPY prisma ./prisma/
 
 # Development stage
 FROM base AS development
-RUN npm ci
+RUN npm install
 RUN npx prisma generate
 COPY . .
 EXPOSE 3001
@@ -23,7 +23,8 @@ CMD ["npm", "run", "dev"]
 
 # Build stage
 FROM base AS builder
-RUN npm ci
+# Use npm install instead of npm ci to handle lock file mismatches
+RUN npm install
 RUN npx prisma generate
 COPY . .
 RUN npm run build

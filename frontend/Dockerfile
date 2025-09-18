@@ -13,7 +13,7 @@ COPY package*.json ./
 
 # Development stage
 FROM base AS development
-RUN npm ci
+RUN npm install
 COPY . .
 EXPOSE 3000
 USER nodejs
@@ -21,7 +21,7 @@ CMD ["npm", "run", "dev", "--", "--host"]
 
 # Build stage
 FROM base AS builder
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 

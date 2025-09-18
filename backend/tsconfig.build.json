@@ -8,6 +8,8 @@
     "rootDir": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
     "forceConsistentCasingInFileNames": false,
     "resolveJsonModule": true,
     "declaration": false,
@@ -22,6 +24,8 @@
     "exactOptionalPropertyTypes": false,
 
     "noEmitOnError": false,
+    "noImplicitThis": false,
+    "noPropertyAccessFromIndexSignature": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

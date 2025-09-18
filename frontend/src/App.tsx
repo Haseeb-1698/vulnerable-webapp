@@ -15,6 +15,7 @@ import LogsViewer from './components/monitoring/LogsViewer';
 import ErrorBoundary from './components/monitoring/ErrorBoundary';
 import DocsPage from './components/docs/DocsPage';
 import LandingPage from './components/LandingPage';
+import { LearningDashboard } from './components/learning/LearningDashboard';
 import { Task } from './types';
 
 // Navigation component
@@ -23,7 +24,6 @@ const Navigation: React.FC<{ onShowSearch?: () => void; onShowTasks?: () => void
   onShowTasks 
 }) => {
   const { user, logout } = useAuth();
-  const [monitorOpen, setMonitorOpen] = useState(false);
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
@@ -80,6 +80,16 @@ const Navigation: React.FC<{ onShowSearch?: () => void; onShowTasks?: () => void
                 <span>Lab</span>
               </a>
               <a
+                href="/learning"
+                className="nav-link group shrink-0"
+              >
+                <svg className="w-4 h-4 mr-2 text-slate-600 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span className="hidden xl:inline">Learning</span>
+                <span className="xl:hidden">Learn</span>
+              </a>
+              <a
                 href="/docs"
                 className="nav-link group shrink-0"
               >
@@ -91,26 +101,7 @@ const Navigation: React.FC<{ onShowSearch?: () => void; onShowTasks?: () => void
                 <span className="hidden xl:inline">Docs</span>
                 <span className="xl:hidden">Docs</span>
               </a>
-              {/* Monitoring/Logs Dropdown */}
-              <div className="relative shrink-0" onMouseLeave={() => setMonitorOpen(false)}>
-                <button
-                  type="button"
-                  className="nav-link flex items-center"
-                  onClick={() => setMonitorOpen((v) => !v)}
-                >
-                  <svg className="w-4 h-4 mr-2 text-slate-600 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  <span>Monitoring</span>
-                  <svg className="w-3 h-3 ml-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className={`absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-lg shadow-lg transition-opacity ${monitorOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-                  <a href="/monitoring" onClick={() => setMonitorOpen(false)} className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-t-lg">Monitoring</a>
-                  <a href="/logs" onClick={() => setMonitorOpen(false)} className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-b-lg">Logs</a>
-                </div>
-              </div>
+
             </div>
           </div>
 
@@ -284,6 +275,14 @@ function App() {
                 } 
               />
               <Route 
+                path="/search" 
+                element={
+                  <ProtectedRoute>
+                    <SearchPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/profile" 
                 element={
                   <ProtectedRoute>
@@ -316,6 +315,14 @@ function App() {
                     <ErrorBoundary>
                       <LogsViewer />
                     </ErrorBoundary>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/learning" 
+                element={
+                  <ProtectedRoute>
+                    <LearningDashboard />
                   </ProtectedRoute>
                 } 
               />

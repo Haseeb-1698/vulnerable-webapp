@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChartBarIcon, ClockIcon, TrendingUpIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, ClockIcon, ArrowTrendingUpIcon, CalendarIcon } from '@heroicons/react/24/outline';
 
 interface LearningSession {
   id: string;
@@ -186,7 +186,7 @@ export const LearningAnalytics: React.FC = () => {
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <TrendingUpIcon className="h-8 w-8 text-green-600" />
+              <ArrowTrendingUpIcon className="h-8 w-8 text-green-600" />
             </div>
             <div className="ml-4">
               <div className="text-2xl font-bold text-gray-900">{streakData.currentStreak}</div>

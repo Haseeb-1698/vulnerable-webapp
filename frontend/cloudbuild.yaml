@@ -1,0 +1,39 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/vulnerable-webapp-frontend', './frontend']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/vulnerable-webapp-frontend']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+    - 'run'
+    - 'deploy'
+    - 'vulnerable-webapp-frontend'
+    - '--image'
+    - 'gcr.io/$PROJECT_ID/vulnerable-webapp-frontend'
+    - '--region'
+    - 'us-central1'
+    - '--platform'
+    - 'managed'
+    - '--allow-unauthenticated'
+    - '--set-env-vars'
+    - 'VITE_API_URL=https://vulnerable-webapp-backend-url.run.app'
+    - '--memory'
+    - '512Mi'
+    - '--cpu'
+    - '1'
+    - '--max-instances'
+    - '5'
+    - '--timeout'
+    - '300'
+
+images:
+  - 'gcr.io/$PROJECT_ID/vulnerable-webapp-frontend'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

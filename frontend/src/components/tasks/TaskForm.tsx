@@ -105,7 +105,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+    <div className="min-h-screen bg-slate-50 bg-grid-slate bg-ornaments -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
         {task ? 'Edit Task' : 'Create New Task'}
       </h2>
@@ -245,7 +247,9 @@ const TaskForm: React.FC<TaskFormProps> = ({
             )}
           </button>
         </div>
-      </form>
+        </form>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MagnifyingGlassIcon, BookOpenIcon, CodeBracketIcon, ShieldExclamationIcon, LightBulbIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, BookOpenIcon, CodeBracketIcon, ExclamationTriangleIcon, LightBulbIcon } from '@heroicons/react/24/outline';
 import { CodeBlock } from '../security-lab/CodeBlock';
 
 interface KnowledgeArticle {
@@ -784,7 +784,7 @@ Secure coding is an ongoing process that requires continuous learning and adapta
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'vulnerability': return ShieldExclamationIcon;
+      case 'vulnerability': return ExclamationTriangleIcon;
       case 'tool': return CodeBracketIcon;
       case 'concept': return LightBulbIcon;
       case 'tutorial': return BookOpenIcon;

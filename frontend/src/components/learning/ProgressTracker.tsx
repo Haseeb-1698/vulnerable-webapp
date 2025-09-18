@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrophyIcon, ClockIcon, FireIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
+import { TrophyIcon, ClockIcon, BoltIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 
 interface LearningObjective {
   id: string;

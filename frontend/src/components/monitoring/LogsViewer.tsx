@@ -192,7 +192,9 @@ const LogsViewer: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -227,6 +229,7 @@ const LogsViewer: React.FC = () => {
               value={filters.eventType}
               onChange={(e) => handleFilterChange('eventType', e.target.value)}
               className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              aria-label="Event Type"
             >
               <option value="">All Types</option>
               <option value="vulnerability_toggle">Vulnerability Toggle</option>
@@ -245,6 +248,7 @@ const LogsViewer: React.FC = () => {
               value={filters.severity}
               onChange={(e) => handleFilterChange('severity', e.target.value)}
               className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              aria-label="Severity"
             >
               <option value="">All Severities</option>
               <option value="low">Low</option>
@@ -289,6 +293,7 @@ const LogsViewer: React.FC = () => {
               value={filters.startDate}
               onChange={(e) => handleFilterChange('startDate', e.target.value)}
               className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              aria-label="Start Date"
             />
           </div>
 
@@ -301,6 +306,7 @@ const LogsViewer: React.FC = () => {
               value={filters.endDate}
               onChange={(e) => handleFilterChange('endDate', e.target.value)}
               className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              aria-label="End Date"
             />
           </div>
 
@@ -312,6 +318,7 @@ const LogsViewer: React.FC = () => {
               value={filters.limit}
               onChange={(e) => handleFilterChange('limit', e.target.value)}
               className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              aria-label="Limit"
             >
               <option value={50}>50 entries</option>
               <option value={100}>100 entries</option>
@@ -462,22 +469,22 @@ const LogsViewer: React.FC = () => {
                           <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                             {entry.oldValue && (
                               <div>
-                                <dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">Old Value</dt>
-                                <dd className="mt-1 text-sm bg-red-50 border border-red-200 rounded p-2">
+                                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Old Value</div>
+                                <div className="mt-1 text-sm bg-red-50 border border-red-200 rounded p-2">
                                   <pre className="whitespace-pre-wrap text-xs">
                                     {JSON.stringify(entry.oldValue, null, 2)}
                                   </pre>
-                                </dd>
+                                </div>
                               </div>
                             )}
                             {entry.newValue && (
                               <div>
-                                <dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">New Value</dt>
-                                <dd className="mt-1 text-sm bg-green-50 border border-green-200 rounded p-2">
+                                <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">New Value</div>
+                                <div className="mt-1 text-sm bg-green-50 border border-green-200 rounded p-2">
                                   <pre className="whitespace-pre-wrap text-xs">
                                     {JSON.stringify(entry.newValue, null, 2)}
                                   </pre>
-                                </dd>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -510,6 +517,8 @@ const LogsViewer: React.FC = () => {
             ))}
           </div>
         )}
+      </div>
+        </div>
       </div>
     </div>
   );

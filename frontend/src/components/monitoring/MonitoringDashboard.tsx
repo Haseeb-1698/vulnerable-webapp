@@ -199,10 +199,27 @@ const MonitoringDashboard: React.FC = () => {
     );
   }
 
-  if (!dashboardData) return null;
+  if (!dashboardData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">No Dashboard Data</h2>
+          <p className="text-gray-600 mb-4">Dashboard data is not available.</p>
+          <button
+            onClick={fetchDashboardData}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -243,14 +260,14 @@ const MonitoringDashboard: React.FC = () => {
                 <dt className="text-sm font-medium text-gray-500 truncate">System Health</dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    {dashboardData.performance.current.system ? 'Online' : 'Unknown'}
+                    {dashboardData.performance?.current?.system ? 'Online' : 'Unknown'}
                   </div>
-                  {dashboardData.performance.current.system && (
+                  {dashboardData.performance?.current?.system && (
                     <div className="ml-2 flex items-baseline text-sm">
                       {getStatusIcon(
                         Math.max(
-                          dashboardData.performance.current.system.cpu,
-                          dashboardData.performance.current.system.memory
+                          dashboardData.performance.current.system.cpu || 0,
+                          dashboardData.performance.current.system.memory || 0
                         ),
                         { warning: 70, critical: 90 }
                       )}
@@ -260,23 +277,23 @@ const MonitoringDashboard: React.FC = () => {
               </dl>
             </div>
           </div>
-          {dashboardData.performance.current.system && (
+          {dashboardData.performance?.current?.system && (
             <div className="mt-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span>CPU Usage:</span>
-                <span className={getStatusColor(dashboardData.performance.current.system.cpu, { warning: 70, critical: 90 })}>
-                  {dashboardData.performance.current.system.cpu.toFixed(1)}%
+                <span className={getStatusColor(dashboardData.performance?.current?.system?.cpu || 0, { warning: 70, critical: 90 })}>
+                  {(dashboardData.performance?.current?.system?.cpu || 0).toFixed(1)}%
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Memory Usage:</span>
-                <span className={getStatusColor(dashboardData.performance.current.system.memory, { warning: 70, critical: 90 })}>
-                  {dashboardData.performance.current.system.memory.toFixed(1)}%
+                <span className={getStatusColor(dashboardData.performance?.current?.system?.memory || 0, { warning: 70, critical: 90 })}>
+                  {(dashboardData.performance?.current?.system?.memory || 0).toFixed(1)}%
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Uptime:</span>
-                <span>{formatUptime(dashboardData.performance.current.system.uptime)}</span>
+                <span>{formatUptime(dashboardData.performance?.current?.system?.uptime || 0)}</span>
               </div>
             </div>
           )}
@@ -293,7 +310,7 @@ const MonitoringDashboard: React.FC = () => {
                 <dt className="text-sm font-medium text-gray-500 truncate">Active Users</dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    {dashboardData.performance.current.activity.concurrentUsers}
+                    {dashboardData.performance?.current?.activity?.concurrentUsers || 0}
                   </div>
                   <div className="ml-2 flex items-baseline text-sm text-gray-600">
                     concurrent
@@ -305,11 +322,11 @@ const MonitoringDashboard: React.FC = () => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm">
               <span>Requests/min:</span>
-              <span>{dashboardData.performance.current.activity.requestsPerMinute}</span>
+              <span>{dashboardData.performance?.current?.activity?.requestsPerMinute || 0}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Active Requests:</span>
-              <span>{dashboardData.performance.current.activity.activeRequests}</span>
+              <span>{dashboardData.performance?.current?.activity?.activeRequests || 0}</span>
             </div>
           </div>
         </div>
@@ -325,7 +342,7 @@ const MonitoringDashboard: React.FC = () => {
                 <dt className="text-sm font-medium text-gray-500 truncate">Performance</dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    {dashboardData.performance.summary.avgResponseTime}ms
+                    {dashboardData.performance?.summary?.avgResponseTime || 0}ms
                   </div>
                   <div className="ml-2 flex items-baseline text-sm text-gray-600">
                     avg
@@ -337,12 +354,12 @@ const MonitoringDashboard: React.FC = () => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm">
               <span>Total Requests:</span>
-              <span>{dashboardData.performance.summary.totalRequests.toLocaleString()}</span>
+              <span>{(dashboardData.performance?.summary?.totalRequests || 0).toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Error Rate:</span>
-              <span className={getStatusColor(dashboardData.performance.summary.errorRate, { warning: 5, critical: 10 })}>
-                {dashboardData.performance.summary.errorRate.toFixed(2)}%
+              <span className={getStatusColor(dashboardData.performance?.summary?.errorRate || 0, { warning: 5, critical: 10 })}>
+                {(dashboardData.performance?.summary?.errorRate || 0).toFixed(2)}%
               </span>
             </div>
           </div>
@@ -359,7 +376,7 @@ const MonitoringDashboard: React.FC = () => {
                 <dt className="text-sm font-medium text-gray-500 truncate">Security Alerts</dt>
                 <dd className="flex items-baseline">
                   <div className="text-2xl font-semibold text-gray-900">
-                    {dashboardData.security.totalAttacks}
+                    {dashboardData.security?.totalAttacks || 0}
                   </div>
                   <div className="ml-2 flex items-baseline text-sm text-gray-600">
                     total
@@ -371,11 +388,11 @@ const MonitoringDashboard: React.FC = () => {
           <div className="mt-4 space-y-2">
             <div className="flex justify-between text-sm">
               <span>Recent Attacks:</span>
-              <span className="text-red-600">{dashboardData.security.recentAttacks}</span>
+              <span className="text-red-600">{dashboardData.security?.recentAttacks || 0}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Vuln Toggles:</span>
-              <span>{dashboardData.audit.vulnerabilityToggles}</span>
+              <span>{dashboardData.audit?.vulnerabilityToggles || 0}</span>
             </div>
           </div>
         </div>
@@ -445,8 +462,8 @@ const MonitoringDashboard: React.FC = () => {
         <div className="mt-4 pt-4 border-t border-gray-200">
           <div className="flex justify-between text-sm">
             <span>Success Rate:</span>
-            <span className={getStatusColor(100 - dashboardData.audit.successRate, { warning: 10, critical: 20 })}>
-              {dashboardData.audit.successRate.toFixed(1)}%
+            <span className={getStatusColor(100 - (dashboardData.audit?.successRate || 100), { warning: 10, critical: 20 })}>
+              {(dashboardData.audit?.successRate || 100).toFixed(1)}%
             </span>
           </div>
         </div>
@@ -456,7 +473,7 @@ const MonitoringDashboard: React.FC = () => {
       <div className="bg-white rounded-lg shadow p-6">
         <h3 className="text-lg font-medium text-gray-900 mb-4">Log Files Status</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.entries(dashboardData.logs).map(([logType, stats]) => (
+          {Object.entries(dashboardData.logs || {}).map(([logType, stats]) => (
             <div key={logType} className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-medium text-gray-900 capitalize">
@@ -478,6 +495,8 @@ const MonitoringDashboard: React.FC = () => {
               )}
             </div>
           ))}
+        </div>
+        </div>
         </div>
       </div>
     </div>

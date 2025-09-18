@@ -93,7 +93,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ onTaskClick, onBack }) => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="min-h-screen bg-slate-50 bg-grid-slate bg-ornaments -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -230,6 +231,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ onTaskClick, onBack }) => {
               <div>' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT version()), 0x7e))--</div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

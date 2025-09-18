@@ -1,11 +1,40 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
-    "noUncheckedIndexedAccess": false,
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": false,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "removeComments": true,
+    "strict": false,
     "noImplicitAny": false,
-    "strict": false
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noEmitOnError": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/controllers/*": ["src/controllers/*"],
+      "@/middleware/*": ["src/middleware/*"],
+      "@/routes/*": ["src/routes/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/types/*": ["src/types/*"]
+    }
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "dist",

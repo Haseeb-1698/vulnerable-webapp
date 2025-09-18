@@ -23,7 +23,7 @@ CMD ["npm", "run", "dev"]
 
 # Build stage
 FROM base AS builder
-RUN npm ci --include=dev
+RUN npm ci
 RUN npx prisma generate
 COPY . .
 RUN npm run build

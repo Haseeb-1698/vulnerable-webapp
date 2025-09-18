@@ -273,7 +273,7 @@ erDiagram
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/vulnerable-webapp.git
+git clone https://github.com/Haseeb-1698/vulnerable-webapp.git
 cd vulnerable-webapp
 ```
 

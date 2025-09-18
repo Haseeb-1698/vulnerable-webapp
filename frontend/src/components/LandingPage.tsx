@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 /**
  * Polished landing page with a glass "arc" hero, Framer Motion micro‑interactions,
@@ -25,12 +24,7 @@ const GlassArc: React.FC = () => (
     </div>
 
     {/* Glass arc frame */}
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/30 p-[1px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl"
-    >
+    <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/30 p-[1px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl">
       <div className="rounded-[2rem] bg-white/65 p-8 md:p-12">
         {/* Arc top using SVG */}
         <div className="relative mx-auto mb-8 h-24 w-full max-w-3xl">
@@ -54,48 +48,27 @@ const GlassArc: React.FC = () => (
         </div>
 
         {/* Heading + subcopy */}
-        <motion.h1
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.45 }}
-          className="text-center text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl"
-        >
+        <h1 className="text-center text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
           Hello Sir Abdur Raafay 👋
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.45 }}
-          className="mx-auto mt-4 max-w-3xl text-center text-lg text-slate-600 md:text-xl"
-        >
+        </h1>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-slate-600 md:text-xl">
           Welcome to <span className="font-semibold text-slate-900">Haseeb's Vulnerable Web Application</span> — a professional lab built to explore and secure real‑world web vulnerabilities.
-        </motion.p>
+        </p>
 
         {/* Feature chips */}
-        <motion.ul
-          initial="hidden"
-          animate="show"
-          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
-          className="mx-auto mt-6 flex flex-wrap justify-center gap-2"
-        >
+        <ul className="mx-auto mt-6 flex flex-wrap justify-center gap-2">
           {["SQLi", "XSS", "IDOR", "Session", "SSRF/LFI"].map((t) => (
-            <motion.li
+            <li
               key={t}
-              variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
               className="rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-sm text-slate-700 backdrop-blur"
             >
               {t}
-            </motion.li>
+            </li>
           ))}
-        </motion.ul>
+        </ul>
 
         {/* CTA – Ready to dive in? */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.45 }}
-          className="mt-8 text-center"
-        >
+        <div className="mt-8 text-center">
           <h2 className="text-2xl font-bold text-slate-900">Ready to dive in?</h2>
           <p className="mt-2 text-slate-600">Start with the labs or jump straight to your account.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -106,21 +79,17 @@ const GlassArc: React.FC = () => (
               Go to Login
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Decorative bottom arc shimmer */}
-      <motion.div
+      <div
         aria-hidden
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
         className="pointer-events-none mt-10 h-10 w-full"
       >
         <div className="mx-auto h-full w-2/3 rounded-full bg-gradient-to-r from-blue-200/50 via-indigo-200/50 to-cyan-200/50 blur-2xl" />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   </div>
 );
 

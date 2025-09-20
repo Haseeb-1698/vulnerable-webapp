@@ -8,11 +8,14 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-blue.svg)](https://www.postgresql.org/)
 
 
+
 A comprehensive, intentionally vulnerable web application designed for cybersecurity education, penetration testing practice, and vulnerability research. Built with modern full-stack development practices while intentionally incorporating specific security vulnerabilities for educational exploitation and remediation learning.
 
 ## 🎯 Overview
 
 This project provides a realistic web application environment with multiple security vulnerabilities that can be exploited for educational purposes. The system implements a three-tier architecture with React.js frontend, Node.js/Express backend, and PostgreSQL database, containerized using Docker for consistent development and deployment environments.
+
+
 
 ### Target Audience
 
@@ -264,36 +267,78 @@ erDiagram
 - **Health checks & monitoring**
 - **Environment-specific configurations**
 
-## 🚀 Quick Start
+## 🚀 Quick Start Guide
 
 ### Prerequisites
-- Docker & Docker Compose
-- Node.js 18+ (for local development)
-- Git
+- **Docker & Docker Compose** (required)
+- **Node.js 18+** (for local development)
+- **Git** (for cloning)
 
-### 1. Clone the Repository
+### 1. Clone and Setup
 ```bash
 git clone https://github.com/Haseeb-1698/vulnerable-webapp.git
 cd vulnerable-webapp
+
+# Install root dependencies (includes concurrently)
+npm install
 ```
 
-### 2. Start Development Environment
+### 2. Start Database
 ```bash
-# Windows (PowerShell)
-.\scripts\deploy.ps1 -Environment development -EnableMonitoring
+# Start PostgreSQL database container
+docker-compose up postgres -d
 
-# Linux/macOS
-chmod +x scripts/github-setup.sh
-./scripts/github-setup.sh
-docker-compose up -d
+# Verify database is running
+docker ps
+# Should show: vulnerable-webapp-db container running on port 5432
 ```
 
-### 3. Access the Application
+### 3. Setup Backend
+```bash
+cd backend
+
+# Install dependencies
+npm install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate Prisma client
+npm run db:generate
+
+# Run database migrations (creates tables)
+npm run db:migrate
+
+# Seed database with sample data
+npm run db:seed
+```
+
+### 4. Setup Frontend
+```bash
+cd ../frontend
+
+# Install dependencies  
+npm install
+
+# Copy environment file (if exists)
+cp .env.example .env 2>/dev/null || true
+```
+
+### 5. Start Development Servers
+```bash
+# From project root - starts both frontend and backend
+npm run dev
+
+# OR start individually:
+# Backend: cd backend && npm run dev
+# Frontend: cd frontend && npm run dev
+```
+
+### 6. Access Application
 - **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001/api
-- **Monitoring Dashboard**: http://localhost:3000/monitoring
-- **Security Logs**: http://localhost:3000/logs
-- **API Health**: http://localhost:3001/health
+- **Backend API**: http://localhost:3001
+- **Database**: localhost:5432 (accessible via tools like pgAdmin)
+
 
 ## 📚 Documentation
 
@@ -335,22 +380,6 @@ docker-compose -f docker-hardening.yml up -d
 docker-compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
 ```
 
-## ☁️ Cloud Deployment
-
-### Google Cloud Platform (GCP)
-```bash
-# Deploy to Cloud Run
-gcloud run deploy vulnerable-webapp-backend --source ./backend
-gcloud run deploy vulnerable-webapp-frontend --source ./frontend
-
-# Deploy to Google Kubernetes Engine (GKE)
-kubectl apply -f k8s/
-```
-
-### Other Cloud Providers
-- **AWS**: ECS, EKS, or EC2 with Docker
-- **Azure**: Container Instances, AKS, or App Service
-- **DigitalOcean**: App Platform or Droplets with Docker
 
 ## 🧪 Testing & Security Scanning
 
@@ -542,47 +571,7 @@ curl -X POST http://localhost:3000/api/users/avatar \
 - **Comprehensive Documentation**: Detailed explanations of each vulnerability
 - **Progressive Difficulty**: Start with basic attacks and progress to advanced techniques
 
-## 🛠️ Development
 
-### Local Development Setup
-```bash
-# Install dependencies
-npm install
-
-# Start development servers
-npm run dev:frontend
-npm run dev:backend
-
-# Run database migrations
-npm run db:migrate
-
-# Seed database
-npm run db:seed
-```
-
-### Testing
-```bash
-# Run unit tests
-npm test
-
-# Run integration tests
-npm run test:integration
-
-# Run security tests
-npm run test:security
-```
-
-### Code Quality
-```bash
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-
-# Type checking
-npm run type-check
-```
 
 ## 📁 Project Structure
 
@@ -632,9 +621,7 @@ vulnerable-webapp/
 │   │   └── business-impact-assessment.md # Risk analysis
 │   ├── DEPLOYMENT.md       # Deployment guide
 │   └── PROJECT_STRUCTURE.md # Architecture documentation
-├── k8s/                    # Kubernetes deployment manifests
-│   ├── namespace.yaml      # Kubernetes namespace
-│   ├── configmap.yaml      # Application configuration
+     # Application configuration
 │   ├── secret.yaml         # Sensitive configuration
 │   ├── postgres.yaml       # Database deployment
 │   ├── backend.yaml        # Backend service deployment
@@ -711,4 +698,3 @@ This software is provided for educational purposes only. The authors are not res
 [⭐ Star this repo](https://github.com/yourusername/vulnerable-webapp) • [🐛 Report Bug](https://github.com/yourusername/vulnerable-webapp/issues) • [💡 Request Feature](https://github.com/yourusername/vulnerable-webapp/issues)
 
 </div>
- 

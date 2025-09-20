@@ -14,7 +14,7 @@ A comprehensive, intentionally vulnerable web application designed for cybersecu
 ## 🎯 Overview
 
 This project provides a realistic web application environment with multiple security vulnerabilities that can be exploited for educational purposes. The system implements a three-tier architecture with React.js frontend, Node.js/Express backend, and PostgreSQL database, containerized using Docker for consistent development and deployment environments.
-
+![Project Dashboard](frontend/src/2025-09-17_23-33.png)
 
 
 ### Target Audience
